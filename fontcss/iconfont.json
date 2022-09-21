@@ -1,0 +1,23 @@
+{
+  "id": "3498347",
+  "name": "temp",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1225393",
+      "name": "up",
+      "font_class": "up",
+      "unicode": "e6a9",
+      "unicode_decimal": 59049
+    },
+    {
+      "icon_id": "109792",
+      "name": "to down",
+      "font_class": "todown",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    }
+  ]
+}
