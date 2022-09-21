@@ -1,8 +1,13 @@
-import axios from 'axios'
 import store from '@/store'
 import {getUUID} from '@/utils/uuid_token'
+import axios from 'axios';
 
-axios.interceptors.request.use(function (config) {
+const request = axios.create({
+    baseURL:process.env.VUE_APP_BASE_API,
+    timeout: 5000,
+});
+
+request.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     let token=store.state.userInfo.token;
     if(token){
@@ -25,101 +30,83 @@ axios.interceptors.request.use(function (config) {
 export default {
 
     reTypeNav(){
-        return axios.get('/api/product/getBaseCategoryList');
+        return request.get('/api/product/getBaseCategoryList');
     },
     
     reBanner(){
-        return axios.get('/mock/banner');
+        return request.get('/mock/banner');
     },
     
     reFloors(){
-        return axios.get('/mock/floors');
+        return request.get('/mock/floors');
     },
     
     reProductList(params){
-        return axios.post('/api/list',params)
+        return request.post('/api/list',params)
     },
     
     reProductDetail(skuid){
-        return axios.get(`/api/item/${skuid}`)
+        return request.get(`/api/item/${skuid}`)
     },
     
     addToCart(skuid,skunum){
-        return axios.post(`/api/cart/addToCart/${skuid}/${skunum}`)
+        return request.post(`/api/cart/addToCart/${skuid}/${skunum}`)
     },
     
     reShopCart(){
-        return axios.get('/api/cart/cartList')
+        return request.get('/api/cart/cartList')
     },
 
     checkCart(skuID,isChecked){
-        return axios.get(`/api/cart/checkCart/${skuID}/${isChecked}`)
+        return request.get(`/api/cart/checkCart/${skuID}/${isChecked}`)
     },
     
     delShop(skuID){
-        return axios.delete(`/api/cart/deleteCart/${skuID}`)
+        return request.delete(`/api/cart/deleteCart/${skuID}`)
     },
     
     modifyNum(skuID,skuNum){
-        return axios.post(`/api/cart/addToCart/${skuID}/${skuNum}`)
+        return request.post(`/api/cart/addToCart/${skuID}/${skuNum}`)
     },
     
     reCode(phone){
-        return axios.get(`/api/user/passport/sendCode/${phone}`)
+        return request.get(`/api/user/passport/sendCode/${phone}`)
     },
     
     reRegister(params){
-        return axios.post('/api/user/passport/register',params)
+        return request.post('/api/user/passport/register',params)
     },
     
     reLogin(params){
-        return axios.post('/api/user/passport/login',params)
+        return request.post('/api/user/passport/login',params)
     },
     
     reUserInfo(){
-        return axios.get("api/user/passport/auth/getUserInfo")
+        return request.get("api/user/passport/auth/getUserInfo")
     },
-
-    /* async judgeLogin(){
-        //判断用户是否登录
-        //失败的函数，返回的是promise
-        let result=await axios.get("api/user/passport/auth/getUserInfo");
-        if(result.data.code==200) return true;
-        else return false;
-    }, */
-    /* judgeLogin(){
-        //判断用户是否登录
-        //失败的函数，返回的是Null
-        let result=null;
-        axios.get("api/user/passport/auth/getUserInfo").then(res=>{
-            if(res.data.code==200) result=true;
-            else result=false;
-        })
-        return result;
-    }, */
     
     reLogout(){
-        return axios.get("/api/user/passport/logout")
+        return request.get("/api/user/passport/logout")
     },
     
     reTrade(){
-        return axios.get("/api/order/auth/trade")
+        return request.get("/api/order/auth/trade")
     },
     
     submitOrder(params,tradeNo){
-        return axios.post(`/api/order/auth/submitOrder?tradeNo=${tradeNo}`,params)
+        return request.post(`/api/order/auth/submitOrder?tradeNo=${tradeNo}`,params)
     },
 
     reOrderPay(orderId){
-        return axios.get(`/api/payment/weixin/createNative/${orderId}`)
+        return request.get(`/api/payment/weixin/createNative/${orderId}`)
     },
 
     rePayResult(orderId){
-        return axios.get(`/api/payment/weixin/queryPayStatus/${orderId}`)
+        return request.get(`/api/payment/weixin/queryPayStatus/${orderId}`)
     },
 
     reOrderList(page,limit){
-        return axios.get(`/api/order/auth/${page}/${limit}`)
+        return request.get(`/api/order/auth/${page}/${limit}`)
     },
 }
 
